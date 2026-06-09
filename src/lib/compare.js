@@ -138,6 +138,12 @@ const rules = {
         return { continue: true };
     },
 
+    asd: (searchKey = 'search') => (key) => {
+        console.log(222)
+        console.log(key)
+
+    },
+
     // Поиск по нескольким полям с указанным значением целевого поля
     // searchKey: Ключ в целевом объекте, содержащий поисковый запрос
     // searchFields: Массив имен полей в исходном объекте для поиска
@@ -291,6 +297,8 @@ function compare(source, target, rulesList) {
  * повторного определения.
  */
 function createComparison(ruleNames, customRules = []) {
+    // console.log(ruleNames)
+    // console.log(customRules)
     return (source, target) => {
         const rulesList = [
             ...ruleNames.map(ruleName => {
