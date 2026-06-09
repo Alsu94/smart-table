@@ -26,7 +26,8 @@ const {data, ...indexes} = initData(sourceData);
  */
 function collectState() {
     const state = processFormData(new FormData(sampleTable.container));
-    // console.log(state)
+    console.log(state)
+    console.log(sampleTable)
 
     const rowsPerPage = parseInt(state.rowsPerPage);    // приведём количество страниц к числу
     const page = parseInt(state.page ?? 1);                // номер страницы по умолчанию 1 и тоже число
@@ -51,10 +52,13 @@ function render(action) {
     let result = [...data]; // копируем для последующего изменения
 
     // @todo: использование
-    result = applyPagination(result, state, action);
-    result = applySorting(result, state, action);
-    result = applyFiltering(result, state, action);
     result = applySearching(result, state, action);
+    result = applyFiltering(result, state, action);
+    result = applySorting(result, state, action);
+    result = applyPagination(result, state, action);
+    
+    
+    
 
     sampleTable.render(result)
 }

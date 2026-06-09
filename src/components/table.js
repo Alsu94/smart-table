@@ -59,7 +59,7 @@ export function initTable(settings, onAction) {
              return row.container
 
         })
-        // console.log(nextRows)
+
 
         root.elements.rows.replaceChildren(...nextRows);
     }

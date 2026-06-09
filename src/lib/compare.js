@@ -28,7 +28,13 @@ const rules = {
     // Подробнее: это помогает избежать ошибок при сравнении, когда целевой объект
     // содержит поля, которых нет в исходном объекте
     skipNonExistentSourceFields: (source) => (key, sourceValue, targetValue) => {
+        // console.log(1111)
+        // console.log(source)
+        // console.log( key)
         if (!Object.prototype.hasOwnProperty.call(source, key)) {
+            if (key === 'totalFrom' || key === 'totalTo') {
+                return { skip: false };
+            }
             return { skip: true };
         }
         return { skip: false };
@@ -38,6 +44,7 @@ const rules = {
     // Подробнее: это полезно, когда вы не хотите сравнивать поля,
     // которые не заполнены в форме поиска или фильтре
     skipEmptyTargetValues: () => (key, sourceValue, targetValue) => {
+       
         if (isEmpty(targetValue)) {
             return { skip: true };
         }
@@ -48,6 +55,7 @@ const rules = {
     // Подробнее: это правило проверяет обязательные поля,
     // требующие непустых значений
     failOnEmptySource: () => (key, sourceValue, targetValue) => {
+        console.log(sourceValue)
         if (isEmpty(sourceValue)) {
             return { result: false };
         }
@@ -136,12 +144,6 @@ const rules = {
             return { result: Math.abs(sourceValue - targetValue) <= tolerance };
         }
         return { continue: true };
-    },
-
-    asd: (searchKey = 'search') => (key) => {
-        console.log(222)
-        console.log(key)
-
     },
 
     // Поиск по нескольким полям с указанным значением целевого поля
@@ -239,17 +241,22 @@ function compare(source, target, rulesList) {
 
     // Проверяем каждое свойство в целевом объекте
     for (const key in target) {
+        // if ()
+        console.log(target)
+        console.log(key)
         if (Object.prototype.hasOwnProperty.call(target, key)) {
             const targetValue = target[key];
             const sourceValue = source[key];
+            console.log(sourceValue)
 
             // Применяем каждое правило по порядку
             let skipProperty = false;
             let ruleResult = null;
 
             for (const rule of rulesList) {
+                console.log(rule)
                 const ruleOutput = rule(key, sourceValue, targetValue, source, target);
-
+                console.log(ruleOutput)
                 // Проверяем, нужно ли пропустить это свойство
                 if (ruleOutput.skip === true) {
                     skipProperty = true;
@@ -297,15 +304,17 @@ function compare(source, target, rulesList) {
  * повторного определения.
  */
 function createComparison(ruleNames, customRules = []) {
-    // console.log(ruleNames)
-    // console.log(customRules)
+
     return (source, target) => {
+
         const rulesList = [
             ...ruleNames.map(ruleName => {
                 // Для правил, которым нужны параметры
                 if (ruleName === 'skipNonExistentSourceFields') {
+            
                     return rules[ruleName](source);
                 }
+        
                 return rules[ruleName]();
             }),
             ...customRules
