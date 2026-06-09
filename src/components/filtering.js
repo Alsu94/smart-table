@@ -27,7 +27,9 @@ export function initFiltering(elements, indexes) {
             let parentElement = action.parentElement
             let inputElement = parentElement.querySelector('.input')
             inputElement.value = ''
+            inputElement.dispatchEvent(new Event('input', { bubbles: true }));
             state[action.dataset.field] = ''
+
         }
 
         console.log(data)

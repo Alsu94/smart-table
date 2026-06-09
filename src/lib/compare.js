@@ -241,7 +241,7 @@ function compare(source, target, rulesList) {
 
     // Проверяем каждое свойство в целевом объекте
     for (const key in target) {
-        // if ()
+        
         console.log(target)
         console.log(key)
         if (Object.prototype.hasOwnProperty.call(target, key)) {
