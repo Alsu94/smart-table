@@ -28,13 +28,7 @@ const rules = {
     // Подробнее: это помогает избежать ошибок при сравнении, когда целевой объект
     // содержит поля, которых нет в исходном объекте
     skipNonExistentSourceFields: (source) => (key, sourceValue, targetValue) => {
-        // console.log(1111)
-        // console.log(source)
-        // console.log( key)
         if (!Object.prototype.hasOwnProperty.call(source, key)) {
-            if (key === 'totalFrom' || key === 'totalTo') {
-                return { skip: false };
-            }
             return { skip: true };
         }
         return { skip: false };
@@ -241,22 +235,19 @@ function compare(source, target, rulesList) {
 
     // Проверяем каждое свойство в целевом объекте
     for (const key in target) {
-        
-        console.log(target)
-        console.log(key)
+    
         if (Object.prototype.hasOwnProperty.call(target, key)) {
             const targetValue = target[key];
             const sourceValue = source[key];
-            console.log(sourceValue)
 
             // Применяем каждое правило по порядку
             let skipProperty = false;
             let ruleResult = null;
 
             for (const rule of rulesList) {
-                console.log(rule)
+              
                 const ruleOutput = rule(key, sourceValue, targetValue, source, target);
-                console.log(ruleOutput)
+          
                 // Проверяем, нужно ли пропустить это свойство
                 if (ruleOutput.skip === true) {
                     skipProperty = true;

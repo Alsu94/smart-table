@@ -36,13 +36,13 @@ export function initFiltering(elements, indexes) {
         const totalTo = parseFloat(state.totalTo) || undefined;
 
         if (totalFrom !== undefined || totalTo !== undefined) {
-        state.total = [totalFrom, totalTo];
+            state.total = [totalFrom, totalTo];
         }
 
         delete state.totalFrom;
         delete state.totalTo;
 
-        console.log(data)
+        // console.log(data)
         // @todo: #4.5 — отфильтровать данные используя компаратор
         return data.filter(row => compare(row, state));
         // return data;
